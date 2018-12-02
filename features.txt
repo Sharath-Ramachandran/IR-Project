@@ -1,0 +1,65 @@
+###As lexical features---> bags-of-words (BoW) features that represent a tweet as a ‘bag’ of its words or characters. 
+
+We incorporated token unigrams and bigrams and character trigrams and fourgrams. Furthermore, a set of numeric and binary features were included containing information
+about 
+
+*(i) character flooding
+*(ii) punctuation flooding
+*(iii) punctuation 
+*(iv) capitalisation
+*(v) hashtag frequency 
+*(vi) the hashtag-to-word ratio
+*(vii) emoticon frequency
+*(viii) tweet length.
+
+Where relevant, numeric features were normalised by dividing them by the tweet length in tokens.
+============================================================================================================================================================
+
+###Syntactic features---> we integrated four Part-of-Speech features for each of the 25 tags in the tagset. 
+These indicate for each PoS-tag 
+*(i) whether it occurs in the tweet or not (binary)
+*(ii) whether the tag occurs 0, 1, or > 2 times
+*(iii) the frequency of the tag (absolute numbers)
+--(iv) as a percentage
+(v) the number of interjections (exclaimations count)
+--(vi) included a binary feature indicating a ‘clash’ between verb tenses in the tweet (see Reyes et al. (2013)). 
+
+four more features---> indicating the presence of named entities in a tweet: 
+one binary feature 
+and three numeric features, indicating:
+(0) named entity present or not (binary) 
+(i) the number of named entities in the text
+(ii) the number of tokens part of named entity. ---> [person] 1 [time] 1...
+(iii) frequency of tokens that are part of a named entity ---> up in freq.
+============================================================================================================================================================
+
+###Sentiment lexicon features (6), implemented based on existing sentiment lexicons:
+
+*AFINN (Nielsen, 2011)
+General Inquirer (GI) (Stone et al., 1966)
+*MPQA (Wilson et al., 2005)
+*NRC Emotion Lexicon (Mohammad and Turney, 2013)
+Liu’s opinion lexicon (Hu and Liu, 2004)
+Bounce (Kokciyan et al., 2013).
+
+For each lexicon, five numeric and one binary feature were derived:
+*– the number of positive, negative and neutral lexicon words averaged over text length;
+*– the overall tweet polarity (i.e., the sum of the values of the identified sentiment words);
+*– the difference between the highest positive and lowest negative sentiment values;
+*– a binary feature indicating whether there is a polarity contrast (i.e., at least one positive and one negative sentiment word from 
+		the lexicon are present in the tweet).
+
+ANEW Genral_Inquirer Opinion_Finder Sentiwordnet
+
+The sentiment lexicon features were extracted in two ways: 
+*(i) by considering all tokens in the instance 
+*(ii) by considering only hashtag tokens (e.g., lovely from #lovely). We took negation cues into account by flipping the polarity of a sentiment word 
+	when it occurred in a negation relation.
+============================================================================================================================================================
+
+###Semantic information --->used word embedding cluster features generated with Word2Vec (Mikolov et al., 2013). The word embeddings were generated from a separate background corpus of 45,251 English tweets, collected with the hashtags #sarcasm, #irony and #not. More precisely, we ran Word2Vec on this corpus, applying the CBoW model, a context size of 8, a word vector dimensionality of 200 features, and a cluster size of k = 2,0003
+
+. The following are two
+example clusters: [#chistecorto #dailysarcasm #fun #sarcastically #sarcastichumor] and [#exams #nosleep #10am editing essay grading psychology stress revision]. The clusters were implemented as binary features, indicating for each cluster whether a word contained by that cluster occurs in the
+tweet.
+============================================================================================================================================================
